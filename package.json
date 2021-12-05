@@ -1,0 +1,35 @@
+{
+  "name": "express-http-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A HTTP based API build with Express and more",
+  "author": "Victor M. Gomes",
+  "license": "ISC",
+  "main": "index.js",
+  "keywords": [
+    "http",
+    "api",
+    "rest",
+    "express"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "~4.16.1",
+    "joi": "^17.5.0",
+    "morgan": "~1.9.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.12.0-beta.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "sequelize-cli": "^6.3.0"
+  }
+}
