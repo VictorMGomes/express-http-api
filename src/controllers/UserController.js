@@ -1,5 +1,5 @@
 const { User } = require('../db/models/');
-const validateInput = require('../utils/validation/userInput');
+const validateInput = require('../utils/validation/validateInput');
 
 class UserController{
   constructor(){
@@ -24,10 +24,12 @@ class UserController{
     const schemaValidated = validateInput(req.body);
     if (schemaValidated.error) return res.status(400).send(schemaValidated.error);      
     const input = {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
+      name: req.body.userName,
+      email: req.body.userEmail,
+      password: req.body.userPassword
     };
+
+  console.log(input);
     const user = await User.create({ 
       name: input.name, 
       email: input.email, 
