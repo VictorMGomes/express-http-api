@@ -31,8 +31,8 @@ class App {
 
     routes() {
         this.app.use('/', indexRouter);
-        this.app.use('/users', usersRouter);     
-    }  
+        this.app.use('/users', usersRouter);
+    }
 
 }
 
