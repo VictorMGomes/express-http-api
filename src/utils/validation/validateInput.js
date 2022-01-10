@@ -6,9 +6,9 @@ const schema = Joi.object({
   userPassword: Joi.string().required().min(3)
 });
 
-function validateInput(value) {    
-  const result = schema.validate(value); 
+function validateInput(value) {
+  const result = schema.validate(value);
   return result;
-  };
+};
 
 module.exports = validateInput;

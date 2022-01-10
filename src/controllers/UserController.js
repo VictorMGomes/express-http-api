@@ -4,27 +4,27 @@ const validateInput = require('../utils/validation/validateInput');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-class UserController{
-  constructor(){
+class UserController {
+  constructor() {
   }
 
-  async getUsers(req, res){
+  async getUsers(req, res) {
     const users = await User.findAll();
-    if (users.length === 0) return res.status(200).send({"Status": "No users found"});
+    if (users.length === 0) return res.status(200).send({ "Status": "No users found" });
     console.log(`Loged user: ID: ${req.userId}, EMAIL: ${req.userEmail} `)
     res.send(users);
   }
 
-  async getUser(req, res){
+  async getUser(req, res) {
     const id = parseInt(req.params.id);
     const user = await User.findAll({
       where: { id: id }
     })
-    if (user.length === 0) return res.status(200).send({"Status": "No user found"});
+    if (user.length === 0) return res.status(200).send({ "Status": "No user found" });
     return res.send(user);
   }
 
-  async setUser(req, res){
+  async setUser(req, res) {
     const schemaValidated = validateInput(req.body);
     if (schemaValidated.error) return res.status(400).send(schemaValidated.error.details);
     const input = {
@@ -37,10 +37,10 @@ class UserController{
       email: input.email,
       password: input.password
     });
-    if(user) return res.status(200).send(user);
+    if (user) return res.status(200).send(user);
   }
 
-  async putUser(req, res){
+  async putUser(req, res) {
     const schemaValidated = validateInput(req.body);
     if (schemaValidated.error) return res.status(400).send(schemaValidated.error);
     const input = {
@@ -58,10 +58,10 @@ class UserController{
         id: id
       }
     });
-    if(user) return res.status(200).send(user);
+    if (user) return res.status(200).send(user);
   }
 
-  async delUser(req, res){
+  async delUser(req, res) {
     const id = parseInt(req.params.id);
     const user = await User.destroy({
       where: {
@@ -71,32 +71,31 @@ class UserController{
     if (user) return res.status(200).send(user);
   }
 
-  async logIn(req, res){
-   // const schemaValidated = validateInput(req.body);
-  //  if (schemaValidated.error) return res.status(400).send(schemaValidated.error);
+  async logIn(req, res) {
+    // const schemaValidated = validateInput(req.body);
+    //  if (schemaValidated.error) return res.status(400).send(schemaValidated.error);
     const input = {
       email: req.body.userEmail,
       password: req.body.userPassword
     };
 
     const user = await User.findOne({ where: { email: input.email } });
-      if (user === null) return res.status(401).send({"Status": "User not found"});
+    if (user === null) return res.status(401).send({ "Error": "User not found" });
     const pwdCheck = input.password === user.password ? true : false;
-      if(pwdCheck === false) return res.status(401).send({"Status": "Wrong password"});
+    if (pwdCheck === false) return res.status(401).send({ "Error": "Wrong password" });
 
-      const token = jwt.sign({
-        userId: user.id,
-        userEmail: user.email
-      },
+    const token = jwt.sign({
+      userId: user.id,
+      userEmail: user.email
+    },
       process.env.JWT_KEY,
-      {expiresIn: process.env.JWT_EXPIRATION}
-      );
+      { expiresIn: process.env.JWT_EXPIRATION }
+    );
 
-      user.dataValues.token = token;
-      console.log(user.dataValues);
-      res.cookie('auth-token', token);
-      return res.status(200).send(user.dataValues);
-    }
+    user.dataValues.token = token;
+    console.log(user.dataValues);
+    return res.status(200).send({ "auth-token": user.dataValues.token });
+  }
 };
 
 module.exports = new UserController();
