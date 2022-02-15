@@ -94,7 +94,7 @@ class UserController {
 
     user.dataValues.token = token;
     console.log(user.dataValues);
-    return res.status(200).send({ "auth-token": user.dataValues.token });
+    return res.status(200).send({ "authtoken": user.dataValues.token });
   }
 };
 
